@@ -1,0 +1,5 @@
+The uri template patterns seem to be failing for all strings...
+The hello url's are hard-coded, but the goodbye ones can only use
+the string matching for the bean name.
+
+FIGURE OUT WHAT'S WRONG
