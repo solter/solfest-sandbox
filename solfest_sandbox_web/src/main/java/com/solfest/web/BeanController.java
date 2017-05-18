@@ -43,7 +43,7 @@ public class BeanController {
         return "beans/list";
     }
 
-    @RequestMapping(value = "/beans/run/${bean_name}")
+    @RequestMapping(value = "/beans/run/{bean_name}")
     public String runBean(@PathVariable("bean_name") String bean_name, Model model){
         logger.debug("running bean " + bean_name);
         // Run the bean
@@ -58,45 +58,11 @@ public class BeanController {
         return "redirect:/beans/result/" + bean_name + "/" + result_count;
     }
 
-    @RequestMapping(value = "/beans/run/hello")
-    public String runBean(Model model){
-        String bean_name = "hello";
-        logger.debug("running bean " + bean_name);
-        // Run the bean
-        int result_count;
-        try{
-            result_count = beanService.executeBean(bean_name);
-        }catch(BeanServiceException bse){
-            model.addAttribute("exception", bse);
-            return "error";
-        }
-        // redirect to the bean's latest result
-        return "redirect:/beans/result/" + bean_name + "/" + result_count;
-    }
-
-    @RequestMapping(value = "/beans/result/${bean_name}/{run_number}")
+    @RequestMapping(value = "/beans/result/{bean_name}/{run_number}")
     public String displayBeanResult(@PathVariable("bean_name") String bean_name, 
                                     @PathVariable("run_number") int run_number, 
                                     Model model){
 
-        logger.debug("displaying bean " + bean_name + " result number " + run_number);
-        // Get the result
-        String result;
-        try{
-            result = beanService.getBeanResult(bean_name, run_number);
-        }catch(BeanServiceException bse){
-            model.addAttribute("exception", bse);
-            return "error";
-        }
-        model.addAttribute("result", result);
-        // point to the result.jsp page
-        return "beans/result";
-    }
-
-    @RequestMapping(value = "/beans/result/hello/{run_number}")
-    public String displayBeanResult(@PathVariable("run_number") int run_number, 
-                                    Model model){
-        String bean_name = "hello";
         logger.debug("displaying bean " + bean_name + " result number " + run_number);
         // Get the result
         String result;
