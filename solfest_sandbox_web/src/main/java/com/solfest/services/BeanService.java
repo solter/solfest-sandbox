@@ -3,6 +3,7 @@ package com.solfest.services;
 import com.solfest.executables.IRunnableBean;
 import com.solfest.executables.ExecutableException;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
