@@ -1,0 +1,6 @@
+This is the common libraries needed throughout the rest of
+the project. Currently this consists of the interface used
+to define an executable bean exposed by the webapp.
+
+It also contains some trivial POJO's implementing IRunnableBean
+to be used as beans.

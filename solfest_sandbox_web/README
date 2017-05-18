@@ -1,0 +1,5 @@
+This is a webapp which allows for running beans which implement
+the common interface. It provides a webpage with run buttons.
+
+This borrows heavily from the example project provided by
+http://www.mkyong.com/spring-mvc/spring-mvc-form-handling-example/.
