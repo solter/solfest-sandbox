@@ -14,4 +14,11 @@
     <bean id="hello" class="com.solfest.trivial.hello"/>
     <bean id="goodbye" class="com.solfest.trivial.goodbye"/>
 
+    <!-- accessing resource and creating bean -->
+    <jee:jndi-lookup id="SolfestRA" jndi-name="jca/SolfestRA"/>
+
+    <bean id="Ratest" class="com.solfest.ratest.Ratest"/>
+        <constructor-arg ref="SolfestRA"/>
+    </bean>
+
 </beans>

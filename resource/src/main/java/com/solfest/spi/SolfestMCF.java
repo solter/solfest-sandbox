@@ -7,6 +7,7 @@ import javax.resource.spi.ManagedConnectionFactory;
 import javax.resource.spi.ManagedConnection;
 import javax.resource.spi.ConnectionManager;
 import javax.resource.spi.ConnectionRequestInfo;
+import javax.resource.spi.ConnectionDefinition;
 
 import javax.security.auth.Subject;
 import java.io.PrintWriter;
@@ -24,21 +25,25 @@ import org.slf4j.LoggerFactory;
 )
 class SolfestMCF implements ManagedConnectionFactory {
 
-    final static Logger logger = LoggerFactory.getLogger(SolfestMCF.class);
-    private PrintWriter obsoleteLogger;
+    /** fancy slf4j logger */
+    private final Logger = LoggerFactory.getLogger(SolfestMCF.class);
+    /** poor man's logger */
+    private PrintWriter ServerLogger;
 
     /** {@inheritDoc}
      */
     @Override
     public Object createConnectionFactory(){
-        return new SolfestCF();
+        doubleLog("Creating native factory without providinhg a connection manager");
+        return new NativeFactoryImpl(this, null, ServerLogger);
     }
 
     /** {@inheritDoc}
      */
     @Override
     public Object createConnectionFactory(ConnectionManager cxManager){
-        return new cxManager.allocateConnection(this, null);
+        doubleLog("Creating native factory");
+        return new NativeFactoryImpl(this, xcManager, ServerLogger);
     }
     
     /** {@inheritDoc}
@@ -47,7 +52,8 @@ class SolfestMCF implements ManagedConnectionFactory {
      */
     @Override
     public ManagedConnection createManagedConnection(Subject subject, ConnectionRequestInfo cxRequestInfo){
-        return new SolfestMC(cxRequestInfo);
+        doubleLog("Creating managed connection");
+        return new SolfestMC(ServerLogger, cxRequestInfo);
     }
 
     /**
@@ -60,6 +66,7 @@ class SolfestMCF implements ManagedConnectionFactory {
      */
     @Override
     public ManagedConnection matchManagedConnections(Set connectionSet, Subject subject, ConnectionRequestInfo cxRequestInfo){
+        doubleLog("Matching connection");
         for( Object obj : connectionSet ){
             // it must be an instance of SolfestMC to match
             if (obj instanceof SolfestMC){
@@ -78,14 +85,19 @@ class SolfestMCF implements ManagedConnectionFactory {
      * Required to conform to interface. Not used
      */
     @Override
-    public PrintWriter getLogWriter(){ return this.obsoleteLogger; }
-
-    }
+    public PrintWriter getLogWriter(){ return this.ServerLogger; }
 
     /**
      * Required to conform to interface. Not used
      */
     @Override
-    public void setLogWriter(PrintWriter out){ this.obsoleteLogger = out; }
+    public void setLogWriter(PrintWriter out){ this.ServerLogger = out; }
 
+    /**
+     * Log to both the ServerLogger and the Logger with the same message.
+     */
+    private doubleLog(String msg){
+        ServerLogger.println("SolfestMCF - INFO: " + msg);
+        Logger.info(msg);
+    }
 }

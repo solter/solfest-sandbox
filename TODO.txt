@@ -1,5 +1,15 @@
-The uri template patterns seem to be failing for all strings...
-The hello url's are hard-coded, but the goodbye ones can only use
-the string matching for the bean name.
+* Fix build errors
+* deploy the rar and set up the jndi-name as jca/SolfestRA.
+  use the following deployment commands
 
-FIGURE OUT WHAT'S WRONG
+	asadmin deploy --name SolfestRA xxx.rar
+	asadmin create-connector-connection-pool --raname SolfestRA --connectiondefinition com.solfest.resourceAPI.nativeFactory test/pool
+	asadmin create-connector-resource --poolname test/pool jca/SolfestRA
+
+* deploy the war
+
+	asadmin deploy jca-file-client.war
+
+* set up the logback to see if you can get it working
+* figure out how to set up maven to build a rar which deploys and sets up the jca/SolfestRA automagically
+* get the resource adapter to actually call a native library

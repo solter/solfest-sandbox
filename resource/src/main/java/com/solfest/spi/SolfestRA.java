@@ -1,13 +1,20 @@
 package com.solfest.spi;
 
 import javax.resource.ResourceException;
-import javax.resource.spi.ResourceAdapter;
-import javax.resource.spi.BootstrapContext;
 import javax.resource.spi.ActivationSpec;
+import javax.resource.spi.BootstrapContext;
+import javax.resource.spi.Connector;
+import javax.resource.spi.ResourceAdapter;
 import javax.resource.spi.TransactionSupport;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
 import javax.transaction.xa.XAResource;
 
+/**
+ * This is a simple instance of a Resource Manager.
+ *
+ * Since no call backs are necessary, and the BootstrapContext doesn't
+ * need to be referenced, all methods are empty.
+ */
 @Connector(
     // descriptors
     description = "An example of a simple resource adapter (RA)",
@@ -22,18 +29,11 @@ import javax.transaction.xa.XAResource;
 )
 class SolfestRA implements ResourceAdapter {
 
-    // a local reference to the context used to start the RA
-    private BootstrapContext context;
-    
     /** 
      * Initializes the RA.
-     *
-     * @param context a bootstrap context containing references to useful facilities that could be used by the RA instance.
      */
     @Override
-    public void start(BootstrapContext context){
-        this.context = context;
-    }
+    public void start(BootstrapContext context){ }
 
     /** 
      * Shuts down the RA gracefully.

@@ -12,6 +12,7 @@
 
     <modules>
         <module>common</module>
+        <module>resource</module>
         <module>solfest_sandbox_web</module>
     </modules>
 
@@ -26,9 +27,10 @@
         <webjars.version>0.30</webjars.version>
         <servletapi.version>3.1.0</servletapi.version>
         <maven-ear.version>2.10.1</maven-ear.version>
+        <maven-rar.version>2.4</maven-rar.version>
         <solfest.common.version>1.1.0</solfest.common.version>
-        <solfest.resource.version>0.0.0</solfest.resource.version>
-        <solfest.webapp.version>1.0.0</solfest.webapp.version>
+        <solfest.resource.version>0.1.0</solfest.resource.version>
+        <solfest.webapp.version>1.1.0</solfest.webapp.version>
     </properties>
 
     <dependencies>

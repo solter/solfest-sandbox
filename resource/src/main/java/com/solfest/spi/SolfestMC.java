@@ -9,45 +9,66 @@ import javax.resource.spi.ManagedConnectionMetaData;
 import javax.resource.spi.LocalTransaction;
 import javax.resource.spi.ConnectionEventListener;
 import javax.resource.spi.ConnectionRequestInfo;
+import javax.resource.spi.ConnectionEvent;
 
 import javax.transaction.xa.XAResource;
 import javax.security.auth.Subject;
 import java.io.PrintWriter;
+import java.io.Closeable;
 
 import java.util.List;
 import java.util.LinkedList;
 
+import java.io.PrintWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static javax.resource.spi.ConnectionEvent.CONNECTION_CLOSED;
+
 /**
  * ManagedConnection implementation, supporting one connection.
  */
-class SolfestMC implements ManagedConnection{
+class SolfestMC implements ManagedConnection, Closeable{
 
-    private PrintWriter obsoleteLogger;
+    /** fancy slf4j logger */
+    private final Logger = LoggerFactory.getLogger(SolfestMC.class);
+    /** poor man's logger */
+    private PrintWriter ServerLogger;
+    /** Connection request info associated with this managed connection */
     protected ConnectionRequestInfo cxRequestInfo;
-
+    /** All connection listeners */
     private List<ConnectionEventListener> listeners;
-    private SolfestConn activeConnection;
+    /** The connection this manages */
+    private NativeCaller activeConnection;
 
-    public SolfestMC(ConnectionRequestInfo cxRequestInfo){
+    public SolfestMC(PrintWriter out, ConnectionRequestInfo cxRequestInfo){
+        // save references 
+        this.ServerLogger = out;
         this.cxRequestInfo = cxRequestInfo;
+
+        // initalize stuff
         listeners = new LinkedList<ConnectionEventListener>();
-        activeConnection = null;
+        activeConnection = new NativeCaller(out, this);
+
+        doubleLog("SolfestMC initialized");
     }
 
     /** {@inheritDoc}
      */
-    public void associateConnection(Object connection){
+    @Override
+    public void associateConnection(Object connection) throws ResourceException{
+        doubleLog("associating another connection with SolfestMC");
         // clean up the old connection
-        if( activeConnection == null ){
+        if( activeConnection != null ){
             cleanup();
         }
         // save a reference to the given connection
-        if( connection instanceof SolfestConn){
+        if( connection instanceof NativeCaller){
             activeConnection = connection;
         }else{
             throw new ResourceException("Cannot associate connection."
                                         " Is of type " + connection.class + 
-                                        " but should be of type " + SolfestConn.class);
+                                        " but should be of type " + NativeClass.class);
         }
     }
 
@@ -55,66 +76,102 @@ class SolfestMC implements ManagedConnection{
      *
      * @param subject security subject - ignored as security is not supported
      */
+    @Override
     public Object getConnection(Subject subject, ConnectionRequestInfo cxRequestInfo){
-
-
+        doubleLog("SolfestMC retrieving connection");
+        return activeConnection;
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public ManagedConnectionMetaData getMetaData(){
-
+        return new SolfestMCMeta();
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public void addConnectionEventListener(ConnectionEventListener listener){
-
+        doubleLog("Adding a connection event listener");
+        this.listeners.add(listener);
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public removeConnectionEventListener(ConnectionEventListener listener){
-
+        doubleLog("removing a connection event listener");
+        this.listeners.remove(listener);
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public void cleanup(){
-        activeConnection = null;
+        doubleLog("cleaning up connection");
+        activeConnection.clear();
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public void destroy(){
-
+        doubleLog("destroying connection");
+        activeConnection.clear();
     }
 
-    /****** UNSUPPORTED FUNCTIONALITY *******/ 
-
-    /**
-     * Required to conform to interface. Not used
+    /** 
+     * Inform all the listeners that this connection is closing.
      */
     @Override
-    public PrintWriter getLogWriter(){ return this.obsoleteLogger; }
-
+    public void close(){
+        doubleLog("closing connection");
+        ConnectionEvent closingEvent = new ConnectionEvent(this, CONNECTION_CLOSED);
+        closingEvent.setConnectionHandler(activeConnection);
+        for(ConnectionEventListener spy : this.listeners){
+            spy.connectionClosed(closing);
+        }
     }
 
     /**
-     * Required to conform to interface. Not used
+     * Retrieve the server logger
      */
     @Override
-    public void setLogWriter(PrintWriter out){ this.obsoleteLogger = out; }
+    public PrintWriter getLogWriter(){ 
+        return this.ServerLogger; 
+    }
 
+    /**
+     * set the server logger
+     */
+    @Override
+    public void setLogWriter(PrintWriter out){ 
+        doubleLog("resetting the ServerLogger");
+        this.ServerLogger = out; 
+        doubleLog("ServerLogger reset");
+    }
+
+    /**
+     * Log to both the ServerLogger and the Logger with the same message.
+     */
+    private doubleLog(String msg){
+        ServerLogger.println("SolfestMC - INFO: " + msg);
+        Logger.info(msg);
+    }
+
+    // UNSUPPORTED FUNCTIONALITY
 
     /** {@inheritDoc}
      */
+    @Override
     public LocalTransaction getLocalTransaction(){
         throw new NotSupportedException(this.class + " does not support local transactions");
     }
 
     /** {@inheritDoc}
      */
+    @Override
     public XAResource getXAResource(){
         throw new NotSupportedException(this.class + " does not support XAR transactions");
     }
