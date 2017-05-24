@@ -1,5 +1,22 @@
-The uri template patterns seem to be failing for all strings...
-The hello url's are hard-coded, but the goodbye ones can only use
-the string matching for the bean name.
+The war file generated inside solfest_sandbox_web/target
+can be deployed to an application server.
+The deployer folder contains a first pass attempt at using
+a jetty embedded server to deploy the war on.
+It does NOT work...
+so finding an application server (or an embedded one to use)
+is up to you.
 
-FIGURE OUT WHAT'S WRONG
+Figure out how to write JUnit tests that
+exercise the beans xml files at build time.
+
+In this project there are two beans files:
+    solfest_sandbox_web/src/main/webapp/WEB-INF/solfest-sandbox-web-servlet.xml
+    solfest_sandbox_web/src/main/webapp/WEB-INF/trivial_beans.xml
+
+
+Here is a useful entry point to spring:
+    https://docs.spring.io/spring/docs/current/spring-framework-reference/html/
+
+    chapter 7 covers the concept of IoC, beans files, and how spring works.
+    part 4 covers testing spring - you will want to look at the integration
+        testing stuff to exercise the beans files
