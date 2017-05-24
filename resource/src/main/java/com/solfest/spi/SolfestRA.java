@@ -19,7 +19,6 @@ import javax.transaction.xa.XAResource;
     licenseRequired = false,
     reauthenticationSupport = false,
     transactionSupport = TransactionSupport.TransactionSupportLevel.NoTransaction
-
 )
 class SolfestRA implements ResourceAdapter {
 
