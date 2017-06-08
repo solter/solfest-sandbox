@@ -1,6 +1,7 @@
 package com.solfest.ratest;
 
 import com.solfest.executables.IRunnableBean;
+import com.solfest.executables.ExecutableException;
 import com.solfest.resourceAPI.nativeFactory;
 import com.solfest.resourceAPI.nativeAPI;
 
@@ -12,32 +13,30 @@ import org.slf4j.LoggerFactory;
 
 public class Ratest implements IRunnableBean{
 
-    private final Logger = LoggerFactory.getLogger(Ratest.class);
+    private final Logger logger = LoggerFactory.getLogger(Ratest.class);
     private List<String> results;
     private nativeFactory resourceFactory;
     private nativeAPI activeConnection;
 
     public Ratest(nativeFactory factory){
-        Logger.info("Ratest initializing");
+        logger.info("Ratest initializing");
         this.resourceFactory = factory;
-        results<String> = new LinkedList<String>();
+        List<String> results = new LinkedList<String>();
     }
 
     @Override
     public int Execute() throws ExecutableException{
-        Logger.info("Ratest executing");
+        logger.info("Ratest executing");
         String result = "";
         int count = results.size();
-        if(count%2 == 1){
-            Logger.info("performing stateless operation");
-            try(nativeAPI runner = factory.getNatives();){
+        try(nativeAPI runner = resourceFactory.getNatives();){
+            if(count%2 == 1){
+                logger.info("performing stateless operation");
                 int[] input = {1,2,3,4};
                 result = "statelessCall result:\n    " + runner.statelessCall(input);
                 results.add(result);
-            }
-        }else{
-            Logger.info("performing stateful successive calls");
-            try(nativeAPI runner = factory.getNatives();){
+            }else{
+                logger.info("performing stateful successive calls");
                 result =  "setState result :\n    ";
                 // multiples of pi
                 result += runner.stateSet((count/2) * 3.14d);
@@ -46,11 +45,13 @@ public class Ratest implements IRunnableBean{
                 results.add(result);
             }
         }
+
+        return results.size();
     }
 
     @Override
     public String getResult(int i) throws ExecutableException{
-        Logger.info("goodbye retrieving result " + i);
+        logger.info("goodbye retrieving result " + i);
         if(results.isEmpty()){
             throw new ExecutableException("No previous runs");
         }

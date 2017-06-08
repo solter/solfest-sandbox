@@ -3,6 +3,7 @@ package com.solfest.spi;
 import com.solfest.resourceAPI.nativeAPI;
 
 import java.io.Closeable;
+import java.io.IOException;
 
 import java.io.PrintWriter;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ public class NativeCaller implements nativeAPI {
     /** State of the caller */
     private double my_state = 0.0d;
     /** fancy slf4j logger */
-    private final Logger = LoggerFactory.getLogger(NativeCaller.class);
+    private final Logger logger = LoggerFactory.getLogger(NativeCaller.class);
     /** poor man's logger */
     private PrintWriter ServerLogger;
     /** a closable object */
@@ -28,7 +29,6 @@ public class NativeCaller implements nativeAPI {
     @Override
     public String statelessCall(int[] input1){
         doubleLog("NativeCaller stateless call made");
-        doubleLog();
         String result = "[ ";
         for(int i : input1){
             result += i + ",";
@@ -62,14 +62,18 @@ public class NativeCaller implements nativeAPI {
     public void close(){
         doubleLog("NativeCaller closed");
         clear();
-        toclose.close();
+        try{
+            toclose.close();
+        }catch(IOException ie){
+            doubleLog("closing raised exception");
+        }
     }
 
     /**
      * Log to both the ServerLogger and the Logger with the same message.
      */
-    private doubleLog(String msg){
+    private void doubleLog(String msg){
         ServerLogger.println("NativeCaller - INFO: " + msg);
-        Logger.info(msg);
+        logger.info(msg);
     }
 }

@@ -27,7 +27,7 @@ import javax.transaction.xa.XAResource;
     reauthenticationSupport = false,
     transactionSupport = TransactionSupport.TransactionSupportLevel.NoTransaction
 )
-class SolfestRA implements ResourceAdapter {
+public class SolfestRA implements ResourceAdapter {
 
     /** 
      * Initializes the RA.

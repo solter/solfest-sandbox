@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.solfest</groupId>
-    <artifactId>examle-solfest</artifactId>
+    <artifactId>example-solfest</artifactId>
     <version>1.1.0</version>
 
     <packaging>pom</packaging>
@@ -31,8 +31,10 @@
         <solfest.common.version>1.1.0</solfest.common.version>
         <solfest.resource.version>0.1.0</solfest.resource.version>
         <solfest.webapp.version>1.1.0</solfest.webapp.version>
+        <glassfish.version>3.1.2</glassfish.version>
     </properties>
 
+    <dependencyManagement>
     <dependencies>
 
         <dependency>
@@ -78,6 +80,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.glassfish.main.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>${glassfish.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstl.version}</version>
@@ -104,6 +113,7 @@
         </dependency>
 
     </dependencies>
+    </dependencyManagement>
 
 
 </project>

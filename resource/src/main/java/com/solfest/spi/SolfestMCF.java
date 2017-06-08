@@ -1,7 +1,7 @@
 package com.solfest.spi;
 
-import com.solfest.cci.SolfestCF;
-import com.solfest.cci.SolfestConn;
+import com.solfest.resourceAPI.nativeAPI;
+import com.solfest.resourceAPI.nativeFactory;
 
 import javax.resource.spi.ManagedConnectionFactory;
 import javax.resource.spi.ManagedConnection;
@@ -18,15 +18,15 @@ import org.slf4j.LoggerFactory;
 
 // Define this as using a standard CCI interface
 @ConnectionDefinition(
-    connectionFactory = javax.resource.cci.ConnectionFactory.class,
-    connectionFactoryImpl = SolfestCF.class,
-    connection = javax.resource.cci.Connection.class,
-    connectionImpl = SolfestConn.class
+    connectionFactory = nativeFactory.class,
+    connectionFactoryImpl = NativeFactoryImpl.class,
+    connection = nativeAPI.class,
+    connectionImpl = NativeCaller.class
 )
-class SolfestMCF implements ManagedConnectionFactory {
+public class SolfestMCF implements ManagedConnectionFactory {
 
     /** fancy slf4j logger */
-    private final Logger = LoggerFactory.getLogger(SolfestMCF.class);
+    private final Logger logger = LoggerFactory.getLogger(SolfestMCF.class);
     /** poor man's logger */
     private PrintWriter ServerLogger;
 
@@ -43,7 +43,7 @@ class SolfestMCF implements ManagedConnectionFactory {
     @Override
     public Object createConnectionFactory(ConnectionManager cxManager){
         doubleLog("Creating native factory");
-        return new NativeFactoryImpl(this, xcManager, ServerLogger);
+        return new NativeFactoryImpl(this, cxManager, ServerLogger);
     }
     
     /** {@inheritDoc}
@@ -96,8 +96,8 @@ class SolfestMCF implements ManagedConnectionFactory {
     /**
      * Log to both the ServerLogger and the Logger with the same message.
      */
-    private doubleLog(String msg){
+    private void doubleLog(String msg){
         ServerLogger.println("SolfestMCF - INFO: " + msg);
-        Logger.info(msg);
+        logger.info(msg);
     }
 }

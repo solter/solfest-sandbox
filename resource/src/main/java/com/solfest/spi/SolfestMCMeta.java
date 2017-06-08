@@ -2,12 +2,12 @@ package com.solfest.spi;
 
 import javax.resource.spi.ManagedConnectionMetaData;
 
-public SolfestMCMeta implements ManagedConnectionMetaData{
+public class SolfestMCMeta implements ManagedConnectionMetaData{
     /** {@inheritDoc}
      */
     @Override
     public String getEISProductName(){
-        return "Solfest Example Connection"
+        return "Solfest Example Connection";
     }
     /** {@inheritDoc}
      */

@@ -11,24 +11,24 @@ import org.slf4j.LoggerFactory;
 
 public class goodbye implements IRunnableBean {
 
-    private final Logger = LoggerFactory.getLogger(goodbye.class);
+    private final Logger logger = LoggerFactory.getLogger(goodbye.class);
     private List<String> results;
 
     public goodbye(){
-        Logger.info("goodbye initializing");
+        logger.info("goodbye initializing");
         results = new LinkedList<String>();
     }
 
     @Override
     public int Execute() throws ExecutableException{
-        Logger.info("goodbye Executing");
+        logger.info("goodbye Executing");
         results.add("goodbye " + results.size() + "th run");
         return results.size();
     }
 
     @Override
     public String getResult(int i) throws ExecutableException{
-        Logger.info("goodbye retrieving result " + i);
+        logger.info("goodbye retrieving result " + i);
         if(results.isEmpty()){
             throw new ExecutableException("No previous runs");
         }

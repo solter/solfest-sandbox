@@ -6,7 +6,7 @@ package com.solfest.resourceAPI;
  * Note that it implements AutoClosable to clean up the native
  * resources upon release.
  */
-public interface nativeAPI implements AutoClosable{
+public interface nativeAPI extends AutoCloseable{
     public String statelessCall(int[] input1);
     public String stateSet(double input2);
     public double stateGet();

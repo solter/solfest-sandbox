@@ -5,6 +5,7 @@ import com.solfest.resourceAPI.nativeFactory;
 
 import javax.naming.Reference;
 
+import javax.resource.ResourceException;
 import javax.resource.spi.ManagedConnectionFactory;
 import javax.resource.spi.ConnectionManager;
 
@@ -22,7 +23,7 @@ public class NativeFactoryImpl implements nativeFactory {
     /** Connection manager to allocate new connections */
     private ConnectionManager cm;
     /** fancy slf4j logger */
-    private final Logger = LoggerFactory.getLogger(NativeFactoryImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(NativeFactoryImpl.class);
     /** poor man's logger */
     private PrintWriter ServerLogger;
 
@@ -75,8 +76,8 @@ public class NativeFactoryImpl implements nativeFactory {
     /**
      * Log to both the ServerLogger and the Logger with the same message.
      */
-    private doubleLog(String msg){
+    private void doubleLog(String msg){
         ServerLogger.println("NativeFactoryImpl - INFO: " + msg);
-        Logger.info(msg);
+        logger.info(msg);
     }
 }

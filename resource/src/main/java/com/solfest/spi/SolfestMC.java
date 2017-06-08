@@ -1,8 +1,9 @@
 package com.solfest.spi;
 
-import com.solfest.cci.SolfestCF;
-import com.solfest.cci.SolfestConn;
+import com.solfest.resourceAPI.nativeAPI;
+import com.solfest.resourceAPI.nativeFactory;
 
+import javax.resource.ResourceException;
 import javax.resource.NotSupportedException;
 import javax.resource.spi.ManagedConnection;
 import javax.resource.spi.ManagedConnectionMetaData;
@@ -28,10 +29,10 @@ import static javax.resource.spi.ConnectionEvent.CONNECTION_CLOSED;
 /**
  * ManagedConnection implementation, supporting one connection.
  */
-class SolfestMC implements ManagedConnection, Closeable{
+public class SolfestMC implements ManagedConnection, Closeable{
 
     /** fancy slf4j logger */
-    private final Logger = LoggerFactory.getLogger(SolfestMC.class);
+    private final Logger logger = LoggerFactory.getLogger(SolfestMC.class);
     /** poor man's logger */
     private PrintWriter ServerLogger;
     /** Connection request info associated with this managed connection */
@@ -64,11 +65,11 @@ class SolfestMC implements ManagedConnection, Closeable{
         }
         // save a reference to the given connection
         if( connection instanceof NativeCaller){
-            activeConnection = connection;
+            activeConnection = (NativeCaller) connection;
         }else{
-            throw new ResourceException("Cannot associate connection."
-                                        " Is of type " + connection.class + 
-                                        " but should be of type " + NativeClass.class);
+            throw new ResourceException("Cannot associate connection." +
+                                        " Is of type " + connection.getClass() + 
+                                        " but should be of type " + NativeCaller.class);
         }
     }
 
@@ -100,7 +101,7 @@ class SolfestMC implements ManagedConnection, Closeable{
     /** {@inheritDoc}
      */
     @Override
-    public removeConnectionEventListener(ConnectionEventListener listener){
+    public void removeConnectionEventListener(ConnectionEventListener listener){
         doubleLog("removing a connection event listener");
         this.listeners.remove(listener);
     }
@@ -128,9 +129,9 @@ class SolfestMC implements ManagedConnection, Closeable{
     public void close(){
         doubleLog("closing connection");
         ConnectionEvent closingEvent = new ConnectionEvent(this, CONNECTION_CLOSED);
-        closingEvent.setConnectionHandler(activeConnection);
+        closingEvent.setConnectionHandle(activeConnection);
         for(ConnectionEventListener spy : this.listeners){
-            spy.connectionClosed(closing);
+            spy.connectionClosed(closingEvent);
         }
     }
 
@@ -155,9 +156,9 @@ class SolfestMC implements ManagedConnection, Closeable{
     /**
      * Log to both the ServerLogger and the Logger with the same message.
      */
-    private doubleLog(String msg){
+    private void doubleLog(String msg){
         ServerLogger.println("SolfestMC - INFO: " + msg);
-        Logger.info(msg);
+        logger.info(msg);
     }
 
     // UNSUPPORTED FUNCTIONALITY
@@ -165,15 +166,17 @@ class SolfestMC implements ManagedConnection, Closeable{
     /** {@inheritDoc}
      */
     @Override
-    public LocalTransaction getLocalTransaction(){
-        throw new NotSupportedException(this.class + " does not support local transactions");
+    public LocalTransaction getLocalTransaction()
+        throws NotSupportedException{
+        throw new NotSupportedException(SolfestMC.class + " does not support local transactions");
     }
 
     /** {@inheritDoc}
      */
     @Override
-    public XAResource getXAResource(){
-        throw new NotSupportedException(this.class + " does not support XAR transactions");
+    public XAResource getXAResource()
+        throws NotSupportedException{
+        throw new NotSupportedException(SolfestMC.class + " does not support XAR transactions");
     }
 
 }

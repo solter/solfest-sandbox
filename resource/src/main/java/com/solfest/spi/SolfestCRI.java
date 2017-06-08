@@ -6,7 +6,7 @@ import javax.resource.spi.ConnectionRequestInfo;
  * A simple ConnectionRequestInfo implementation
  * that garuntees all connections are equal.
  */
-public SolfestCRI implements ConnectionRequestInfo{
+public class SolfestCRI implements ConnectionRequestInfo{
     @Override
     public boolean equals(Object obj) {
         return true;
