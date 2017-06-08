@@ -1,15 +1,16 @@
-* Fix build errors
-* deploy the rar and set up the jndi-name as jca/SolfestRA.
-  use the following deployment commands
-
-	asadmin deploy --name SolfestRA xxx.rar
-	asadmin create-connector-connection-pool --raname SolfestRA --connectiondefinition com.solfest.resourceAPI.nativeFactory test/pool
-	asadmin create-connector-resource --poolname test/pool jca/SolfestRA
+* update the freaking war pom to use the maven-assembly-plugin
+  in conjunction with the maven-nar-plugin to package the nar output
+  into the war.
+  See the following resources:
+  http://maven-nar.github.io/usage.html
+  http://maven.apache.org/plugins/maven-assembly-plugin/index.html
+  http://maven.apache.org/plugins/maven-assembly-plugin/usage.html
 
 * deploy the war
 
 	asadmin deploy jca-file-client.war
 
+* test what happens when the native code segfaults
 * set up the logback to see if you can get it working
 * figure out how to set up maven to build a rar which deploys and sets up the jca/SolfestRA automagically
 * get the resource adapter to actually call a native library

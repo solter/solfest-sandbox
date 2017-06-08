@@ -3,6 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- TODO: figure out how to use maven-assembly-plugin to configure this -->
+
     <parent>
         <groupId>com.solfest</groupId>
         <artifactId>example-solfest</artifactId>
@@ -22,6 +24,20 @@
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <libraries>
+                        <library>
+                            <type>jni</type>
+                            <narSystemPackage>com.solfest.cppJniTrivial</narSystemPackage>
+                        </library>
+                    </libraries>
                 </configuration>
             </plugin>
 
@@ -90,6 +106,13 @@
             <groupId>com.solfest</groupId>
             <artifactId>common</artifactId>
             <version>${solfest.common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.solfest</groupId>
+            <artifactId>CPP_Ex</artifactId>
+            <version>${solfest.jni_test.version}</version>
+            <type>nar</type>
         </dependency>
 
         <dependency>
