@@ -24,6 +24,10 @@
                 <libraries>
                     <library>
                         <type>shared</type>
+                        <!-- Since this library is exclusively for use by other
+                             native sources, no narSystemPackage is specified,
+                             thus there is no good platform independent way for
+                             java to call into this library.  -->
                     </library>
                 </libraries>
                 <!-- Need the java libraries since this logger utilizes jni.h -->
