@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--<module>jlogging</module>-->
+        <module>jlogging</module>
         <module>CPP_Ex</module>
     </modules>
 
@@ -28,7 +28,20 @@
                     <artifactId>nar-maven-plugin</artifactId>
                     <version>${nar-maven-plugin.version}</version>
                     <extensions>true</extensions>
-                </plugin>
+                    <!-- Use the **/*IT.java pattern to for integration tests -->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>nar-integration-test</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>**/*IT.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    </plugin>
 
             </plugins>
         </pluginManagement>

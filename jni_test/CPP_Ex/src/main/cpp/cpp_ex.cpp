@@ -1,4 +1,5 @@
 #include "com_solfest_cppJniTrivial_TrivialNative.h"
+#include "logging.h"
 
 extern "C" { /* Specify the C calling convention */
     /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,6 +20,8 @@ extern "C" { /* Specify the C calling convention */
      */
     JNIEXPORT jstring JNICALL Java_com_solfest_cppJniTrivial_TrivialNative_noStateNative
       (JNIEnv * env, jobject obj){
+        initializeLogger(env, obj);
+        logInfo("Inside cpp noStateNative method");
 
         // return a string
         return env->NewStringUTF("Successfully called stateless native code");
@@ -36,6 +39,8 @@ extern "C" { /* Specify the C calling convention */
      */
     JNIEXPORT jstring JNICALL Java_com_solfest_cppJniTrivial_TrivialNative_stateNative
       (JNIEnv * env, jobject obj, jint input){
+        initializeLogger(env, obj);
+        logInfo("Inside cpp stateNative method");
 
         // update the state
         sum += input;
