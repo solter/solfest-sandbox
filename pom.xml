@@ -26,6 +26,7 @@
         <module>common</module>
         <module>trivial_beans</module>
         <module>jni_test</module>
+        <module>solfest_sandbox_web</module>
     </modules>
 
     <!-- Version Properties -->
@@ -33,18 +34,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- external dependencies -->
+        <bootstrap.version>3.3.1</bootstrap.version>
+        <glassfish.version>3.1.2</glassfish.version>
+        <jstl.version>1.2</jstl.version>
         <junit.version>4.12</junit.version>
         <logback.version>1.1.3</logback.version>
+        <maven-compiler.version>3.3</maven-compiler.version>
         <mockito.version>2.7.22</mockito.version>
         <nar-maven-plugin.version>3.5.1</nar-maven-plugin.version>
+        <servletapi.version>3.1.0</servletapi.version>
+        <spring.version>4.1.9.RELEASE</spring.version>
         <surefire.version>2.20</surefire.version>
+        <webjars.version>0.30</webjars.version>
 
         <!-- project versions -->
         <solfest.common.version>1.2.0</solfest.common.version>
         <solfest.trivial_beans.version>1.0.0</solfest.trivial_beans.version>
         <solfest.jlogging.version>1.0.0</solfest.jlogging.version>
         <solfest.cpp_ex.version>1.1.0</solfest.cpp_ex.version>
-        <solfest.webapp.version>1.1.0</solfest.webapp.version>
+        <solfest.webapp.version>1.1.1</solfest.webapp.version>
     </properties>
 
     <!-- Build Management -->

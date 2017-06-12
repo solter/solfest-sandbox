@@ -8,6 +8,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * A service which can access beans through the framework.
+ */
 public class BeanService implements ApplicationContextAware {
 
     private ApplicationContext context;

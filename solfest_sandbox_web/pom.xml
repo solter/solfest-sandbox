@@ -1,51 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- TODO: figure out how to use maven-assembly-plugin to configure this -->
-
-    <parent>
-        <groupId>com.solfest</groupId>
+    <parent> <groupId>com.solfest</groupId>
         <artifactId>example-solfest</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
     </parent>
 
     <artifactId>solfest_sandbox_web</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>war</packaging>
-
-    <build>
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.maven-nar</groupId>
-                <artifactId>nar-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <libraries>
-                        <library>
-                            <type>jni</type>
-                            <narSystemPackage>com.solfest.cppJniTrivial</narSystemPackage>
-                        </library>
-                    </libraries>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
 
     <dependencies>
 
+        <!-- Spring (core and mvc web stuff) -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -58,25 +28,20 @@
             </exclusions>
         </dependency>
 
-        <!-- Spring Web -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version> </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${jcl.slf4j.version}</version>
+            <version>${spring.version}</version> 
         </dependency>
 
+        <!-- logging -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
 
-        <!-- jstl -->
+        <!-- web stuff -->
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
@@ -95,6 +60,7 @@
             <version>${bootstrap.version}</version>
         </dependency>
 
+        <!-- declare dependencies provided by app server -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -103,21 +69,17 @@
         </dependency>
 
         <dependency>
+            <groupId>org.glassfish.main.extras</groupId>
+            <artifactId>glassfish-embedded-all</artifactId>
+            <version>${glassfish.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- include the common dependency -->
+        <dependency>
             <groupId>com.solfest</groupId>
             <artifactId>common</artifactId>
             <version>${solfest.common.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.solfest</groupId>
-            <artifactId>CPP_Ex</artifactId>
-            <version>${solfest.jni_test.version}</version>
-            <type>nar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.main.extras</groupId>
-            <artifactId>glassfish-embedded-all</artifactId>
         </dependency>
 
     </dependencies>

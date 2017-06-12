@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ * Controls the logic which occurs when url's are accessed.
+ */
 @Controller
 public class BeanController {
 

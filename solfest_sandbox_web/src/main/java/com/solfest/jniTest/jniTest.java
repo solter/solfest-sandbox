@@ -10,9 +10,13 @@ import java.util.LinkedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A simple native bean which allows the actual
+ * implementation to be injected.
+ */
 public class jniTest implements IRunnableBean {
 
-    private final Logger logger = LoggerFactory.getLogger(jniTest.class);
+    static final Logger logger = LoggerFactory.getLogger(jniTest.class);
     private List<String> results;
 
     private ITrivialNative injected;
