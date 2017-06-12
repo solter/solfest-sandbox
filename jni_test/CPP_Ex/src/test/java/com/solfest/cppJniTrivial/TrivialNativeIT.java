@@ -5,11 +5,15 @@ import org.junit.Before;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Simple JUnit tests for the native methods.
- */
-public class TrivialNativeTest {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Simple integration test for the native methods.
+ */
+public class TrivialNativeIT {
+
+    private final Logger logger = LoggerFactory.getLogger(TrivialNativeIT.class);
     TrivialNative underTest;
 
     @Before
@@ -20,7 +24,7 @@ public class TrivialNativeTest {
     @Test
     public void testNoStateNative(){
         String returned = underTest.noStateNative();
-        System.out.println("noStateNative() returned: " + returned);
+        logger.info("noStateNative() returned: " + returned);
 
         assertTrue("Return from stateless call was empty", !returned.isEmpty()); 
     }
@@ -28,9 +32,9 @@ public class TrivialNativeTest {
     @Test
     public void testStateNative(){
         String returned = underTest.stateNative(1);
-        System.out.println("stateNative(1) returned : " + returned);
+        logger.info("stateNative(1) returned : " + returned);
         returned = underTest.stateNative(2);
-        System.out.println("stateNative(2) returned : " + returned);
+        logger.info("stateNative(2) returned : " + returned);
 
         assertTrue("Stateful native call did not report sum", returned.contains("3")); 
     }

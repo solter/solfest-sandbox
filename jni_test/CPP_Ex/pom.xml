@@ -6,11 +6,11 @@
     <parent>
         <groupId>com.solfest</groupId>
         <artifactId>jni_test</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 
     <artifactId>CPP_Ex</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>nar</packaging>
 
     <build>
@@ -28,6 +28,19 @@
                   </library>
                </libraries>
             </configuration>
+            <!-- Use the **/*IT.java pattern to for integration tests -->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>nar-integration-test</goal>
+                    </goals>
+                    <configuration>
+                        <includes>
+                            <include>**/*IT.java</include>
+                        </includes>
+                    </configuration>
+                </execution>
+            </executions>
          </plugin>
 
       </plugins>
@@ -51,15 +64,19 @@
         </dependency>
 
         <dependency>
-            <groupId>org.scijava</groupId>
-            <artifactId>native-lib-loader</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.solfest</groupId>
             <artifactId>common</artifactId>
             <version>${solfest.common.version}</version>
         </dependency>
+
+        <!--
+        <dependency>
+            <groupId>com.solfest</groupId>
+            <artifactId>jlogging</artifactId>
+            <version>${solfest.jlogging.version}</version>
+            <type>nar</type>
+        </dependency>
+        -->
 
     </dependencies>
 
