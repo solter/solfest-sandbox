@@ -1,16 +1,25 @@
-* update the freaking war pom to use the maven-assembly-plugin
-  in conjunction with the maven-nar-plugin to package the nar output
-  into the war.
-  See the following resources:
+* create the final build which assembles everything in the
+  distro sub-module (which does not yet exist). The
+  common, trivial_beans, jni_test, and solfest_sandbox_web
+  submodules should be in a good working order now, and should
+  be left alone.
+
+  This will likely involve using the maven-assembly-plugin,
+  as well as architecture specific assembly files.
+  Here are some websites which may be useful:
   http://maven-nar.github.io/usage.html
   http://maven.apache.org/plugins/maven-assembly-plugin/index.html
   http://maven.apache.org/plugins/maven-assembly-plugin/usage.html
 
-* deploy the war
+* deploy the final assembled product
 
-	asadmin deploy jca-file-client.war
+	asadmin deploy final_assembled_prod.?ar
 
 * test what happens when the native code segfaults
-* set up the logback to see if you can get it working
-* figure out how to set up maven to build a rar which deploys and sets up the jca/SolfestRA automagically
+* try to set up the logback inside the distro resources
+
+If segfaults are problematic, the following steps must be taken
+to set up a rar (see the master branch):
+* figure out how to set up maven to build a rar which deploys 
+  and sets up the jca/SolfestRA automagically
 * get the resource adapter to actually call a native library
