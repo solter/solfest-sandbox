@@ -24,6 +24,7 @@
                   <library>
                      <type>jni</type>
                      <narSystemPackage>com.solfest.cppJniTrivial</narSystemPackage>
+                     <narSystemName>CppExNativeLib</narSystemName>
                   </library>
                </libraries>
             </configuration>
