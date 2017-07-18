@@ -21,7 +21,7 @@ public class Ratest implements IRunnableBean{
     public Ratest(nativeFactory factory){
         logger.info("Ratest initializing");
         this.resourceFactory = factory;
-        List<String> results = new LinkedList<String>();
+        results = new LinkedList<String>();
     }
 
     @Override

@@ -18,7 +18,13 @@
     <bean id="goodbye" class="com.solfest.trivial.goodbye"/>
 
     <!-- accessing resource and creating bean -->
-    <jee:jndi-lookup id="SolfestRA" jndi-name="jca/SolfestRA"/>
+    <jee:jndi-lookup id="SolfestRA" 
+        jndi-name="jca/SolfestRA"
+        lookup-on-startup="false"
+        cache="false"
+        expected-type="com.solfest.resourceAPI.nativeFactory"
+        proxy-interface="com.solfest.resourceAPI.nativeFactory"
+        />
 
     <bean id="Ratest" class="com.solfest.ratest.Ratest">
         <constructor-arg ref="SolfestRA"/>
