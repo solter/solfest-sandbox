@@ -31,7 +31,6 @@
         <solfest.common.version>1.1.0</solfest.common.version>
         <solfest.resource.version>0.1.0</solfest.resource.version>
         <solfest.webapp.version>1.1.0</solfest.webapp.version>
-        <glassfish.version>3.1.2</glassfish.version>
     </properties>
 
     <dependencyManagement>

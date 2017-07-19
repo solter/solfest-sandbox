@@ -39,9 +39,7 @@ public class SolfestRA implements ResourceAdapter {
      * Shuts down the RA gracefully.
      */
     @Override
-    public void stop(){
-
-    }
+    public void stop(){ }
 
     /** {@inheritDoc}
      */

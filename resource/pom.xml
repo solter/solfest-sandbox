@@ -12,7 +12,7 @@
     <artifactId>resource</artifactId>
     <version>0.1.0</version>
     <!-- Note that this will actually be built as a rar due to maven-rar-plugin -->
-    <packaging>rar</packaging>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>

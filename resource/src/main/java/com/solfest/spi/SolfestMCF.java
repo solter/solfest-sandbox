@@ -28,24 +28,24 @@ public class SolfestMCF implements ManagedConnectionFactory {
     /** fancy slf4j logger */
     private final Logger logger = LoggerFactory.getLogger(SolfestMCF.class);
     /** poor man's logger */
-    private PrintWriter ServerLogger;
+    private PrintWriter ServerLogger = null;
 
     /** {@inheritDoc}
-     */
+    */
     @Override
     public Object createConnectionFactory(){
-        doubleLog("Creating native factory without providinhg a connection manager");
+        doubleLog("Creating native factory without providing a connection manager");
         return new NativeFactoryImpl(this, null, ServerLogger);
     }
 
     /** {@inheritDoc}
-     */
+    */
     @Override
     public Object createConnectionFactory(ConnectionManager cxManager){
         doubleLog("Creating native factory");
         return new NativeFactoryImpl(this, cxManager, ServerLogger);
     }
-    
+
     /** {@inheritDoc}
      *
      * @param subject security subject - ignored as security is not supported
@@ -73,9 +73,9 @@ public class SolfestMCF implements ManagedConnectionFactory {
                 SolfestMC mc = (SolfestMC) obj;
                 ConnectionRequestInfo info = mc.cxRequestInfo;
                 if( (cxRequestInfo == null && info == null ) ||
-                     info.equals(cxRequestInfo)              ){
+                        info.equals(cxRequestInfo)              ){
                     return mc;
-                } 
+                        } 
             }
         }
         return null;
@@ -91,13 +91,18 @@ public class SolfestMCF implements ManagedConnectionFactory {
      * Required to conform to interface. Not used
      */
     @Override
-    public void setLogWriter(PrintWriter out){ this.ServerLogger = out; }
+    public void setLogWriter(PrintWriter out){ 
+        out.println("SolfestMCF - INFO: Setting log writer");
+        this.ServerLogger = out; 
+    }
 
     /**
      * Log to both the ServerLogger and the Logger with the same message.
      */
     private void doubleLog(String msg){
-        ServerLogger.println("SolfestMCF - INFO: " + msg);
+        if( ServerLogger != null){
+            ServerLogger.println("SolfestMCF - INFO: " + msg);
+        }
         logger.info(msg);
     }
 }
